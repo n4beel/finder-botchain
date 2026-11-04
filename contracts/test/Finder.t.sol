@@ -314,4 +314,53 @@ contract FinderTest is Test {
     assertEq(finder.earned(finder1), uint128(count) * singleComm);
     assertEq(finder.found(finder1), count);
   }
+
+  function test_MutantKillers() public {
+    // 1. Kill block.timestamp == endsAt (exact boundary must revert Ended)
+    vm.prank(seller);
+    uint256 id = finder.list("Exact End", "Desc", PRICE, FINDER_BPS, STOCK, 2 hours);
+    Finder.Offer memory o = finder.offerOf(id);
+    vm.warp(o.endsAt);
+    vm.prank(buyerA);
+    vm.expectRevert(Finder.Ended.selector);
+    finder.buy{value: PRICE}(id, address(0));
+
+    // 2. Kill exact boundary parameter validations
+    bytes memory maxName = new bytes(64);
+    for (uint256 i = 0; i < 64; i++) maxName[i] = "a";
+    bytes memory maxDesc = new bytes(300);
+    for (uint256 i = 0; i < 300; i++) maxDesc[i] = "b";
+
+    vm.prank(seller);
+    uint256 idMax = finder.list(string(maxName), string(maxDesc), PRICE, FINDER_BPS, 10_000, 1 hours);
+    assertEq(idMax, 2);
+
+    // 3. Kill latest pagination count = total - offset
+    (uint256[] memory ids,,) = finder.latest(1, 5);
+    assertEq(ids.length, 1);
+    assertEq(ids[0], 1);
+
+    // 4. Kill offset == total
+    (uint256[] memory idsEmpty,,) = finder.latest(2, 5);
+    assertEq(idsEmpty.length, 0);
+
+    // 5. Kill _locked = false; => _locked = true (re-withdrawing in a second tx succeeds)
+    vm.deal(address(this), 10 ether);
+    vm.prank(seller);
+    uint256 idW = finder.list("Withdraw Item", "Desc", PRICE, FINDER_BPS, STOCK, DURATION);
+    vm.prank(buyerA);
+    finder.buy{value: PRICE}(idW, address(0));
+
+    // Seller withdraws once
+    vm.prank(seller);
+    finder.withdraw();
+
+    // Seller gets another sale and withdraws a second time
+    vm.prank(buyerB);
+    finder.buy{value: PRICE}(idW, address(0));
+
+    vm.prank(seller);
+    finder.withdraw();
+  }
+
 }
