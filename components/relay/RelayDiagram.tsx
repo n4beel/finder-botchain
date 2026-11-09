@@ -39,9 +39,9 @@ export function RelayDiagram({
         </div>
 
         {/* Relay Flow Nodes (Mobile stack, Desktop row) */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 py-2">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-3 py-2">
           {/* Node 1: Finder (Introducer) */}
-          <div className="flex-1 w-full md:w-auto p-4 rounded-lg bg-white border-2 border-[var(--border-default)] text-center relative">
+          <div className="flex-1 min-w-0 w-full md:w-auto md:basis-0 p-4 rounded-lg bg-white border-2 border-[var(--border-default)] text-center relative">
             <span className="absolute -top-2.5 left-4 px-2 py-0.5 rounded bg-[#264653] text-white text-[10px] font-mono uppercase tracking-wider">
               1. Finder Link
             </span>
@@ -51,7 +51,7 @@ export function RelayDiagram({
             <h4 className="font-bold text-xs text-[#2B1D00]">
               {hasFinder ? "Credited Finder" : "Direct / No Finder"}
             </h4>
-            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate max-w-[180px] mx-auto mt-0.5">
+            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate max-w-full mx-auto mt-0.5">
               {hasFinder ? finder : "None (0% Cut)"}
             </p>
             <div className="mt-2 text-xs font-mono font-bold text-emerald-700 bg-emerald-50 py-1 rounded">
@@ -60,7 +60,7 @@ export function RelayDiagram({
           </div>
 
           {/* Flow Arrow 1 */}
-          <div className="hidden md:flex flex-col items-center justify-center text-[#264653]">
+          <div className="hidden md:flex flex-col items-center justify-center text-[#264653] flex-shrink-0">
             <span className="text-[10px] font-mono uppercase text-[var(--text-muted)] mb-1">
               Shares Link
             </span>
@@ -70,7 +70,7 @@ export function RelayDiagram({
           </div>
 
           {/* Node 2: Buyer (Payer) */}
-          <div className="flex-1 w-full md:w-auto p-4 rounded-lg bg-white border-2 border-[#264653] text-center relative shadow-xs">
+          <div className="flex-1 min-w-0 w-full md:w-auto md:basis-0 p-4 rounded-lg bg-white border-2 border-[#264653] text-center relative shadow-xs">
             <span className="absolute -top-2.5 left-4 px-2 py-0.5 rounded bg-[#E9C46A] text-[#2B1D00] text-[10px] font-mono font-bold uppercase tracking-wider border border-[#B4954C]">
               2. Buyer (You)
             </span>
@@ -78,7 +78,7 @@ export function RelayDiagram({
               BY
             </div>
             <h4 className="font-bold text-xs text-[#2B1D00]">Purchaser</h4>
-            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate max-w-[180px] mx-auto mt-0.5">
+            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate max-w-full mx-auto mt-0.5">
               {buyer ? buyer : "Connect wallet to buy"}
             </p>
             <div className="mt-2 text-xs font-mono font-bold text-[#2B1D00] bg-amber-100/70 py-1 rounded">
@@ -87,7 +87,7 @@ export function RelayDiagram({
           </div>
 
           {/* Flow Arrow 2 */}
-          <div className="hidden md:flex flex-col items-center justify-center text-[#264653]">
+          <div className="hidden md:flex flex-col items-center justify-center text-[#264653] flex-shrink-0">
             <span className="text-[10px] font-mono uppercase text-[var(--text-muted)] mb-1">
               Net Price
             </span>
@@ -97,7 +97,7 @@ export function RelayDiagram({
           </div>
 
           {/* Node 3: Seller (Merchant) */}
-          <div className="flex-1 w-full md:w-auto p-4 rounded-lg bg-white border-2 border-[var(--border-default)] text-center relative">
+          <div className="flex-1 min-w-0 w-full md:w-auto md:basis-0 p-4 rounded-lg bg-white border-2 border-[var(--border-default)] text-center relative">
             <span className="absolute -top-2.5 left-4 px-2 py-0.5 rounded bg-[#2B1D00] text-white text-[10px] font-mono uppercase tracking-wider">
               3. Seller
             </span>
@@ -105,7 +105,7 @@ export function RelayDiagram({
               SL
             </div>
             <h4 className="font-bold text-xs text-[#2B1D00]">Offer Host</h4>
-            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate max-w-[180px] mx-auto mt-0.5">
+            <p className="text-[11px] font-mono text-[var(--text-muted)] truncate max-w-full mx-auto mt-0.5">
               {seller}
             </p>
             <div className="mt-2 text-xs font-mono font-bold text-[#2B1D00] bg-amber-50 py-1 rounded">
